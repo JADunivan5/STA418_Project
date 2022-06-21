@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r Loading_Tidyverse, message=FALSE}
+```{r Loading_packages, message=FALSE}
 library(tidyverse)
 library(janitor)
 ```
@@ -16,17 +16,61 @@ library(janitor)
 
 ```{r Reading_Files, Message=FALSE}
 NFL <- read_csv(here::here("Data", "pbp-2021.csv")) %>% 
-  clean_names()
+  clean_names() %>%
+  select(-`x11`,-`x13`,-`x17`,-`x18`)
+
+
 ```
 
 
 
-## Including Plots
+```{r Frequency_Table_PlayType_by_down}
+ play_down_freq <- NFL %>% 
+  count(play_type,down)
+play_down_freq
+```
+```{r Chart of play type and down}
 
-You can also embed plots, for example:
+ggplot( data=play_down_freq, aes(x=down, y=play_type, size=n) ) +
+geom_point( )
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+NFL %>% filter(is.na(play_type))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r Changing NA Wildcat plays}
+#Specifying the data set
+#filter by description and play type
+#play type must contain NA and Description must contain DIRECT SNAP
+#mutate/case to do if else statement, Denny's activity Example.
+NFL %>% mutate(play_type=case_when(is.na())+ description == "Direct Snap")
+
+
+```
+
+```{r Penalty Yards for Chicago Bears}
+ggplot( data=NFL, aes(x=offense_team== "CHI", y=penalty_yards) ) +
+geom_point( ) 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -72,10 +72,12 @@ geom_point( )
 ```
 
 ```{r Play Type Yardage}
-Playtype_Yardage <- NFL %>% filter(!play_type%in%c("TIMEOUT","CLOCK STOP", "EXCEPTION", "PENALTY","KICK OFF","EXTRA POINT", "QB KNEEL", is.na(play_type))) %>%  
+Playtype_Yardage <- NFL %>% filter(!play_type%in%c("TIMEOUT","CLOCK STOP", "EXCEPTION", "PENALTY","KICK OFF","EXTRA POINT", "QB KNEEL", "NO PLAY", "FIELD GOAL","PUNT","TWO-POINT CONVERSION",NA,"FUMBLES")) %>%  
   count(yards, play_type)
 Playtype_Yardage
-#Want to look into removing rows that contain, Timeouts, QB-Kneel, End of game, End of Quarter
+ggplot( data=Playtype_Yardage, aes(x=play_type, y=yards, size=n) ) +
+geom_point( )
+#Section could be done, see Bradford for more advice on it.
 ```
 
 

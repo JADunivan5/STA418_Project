@@ -60,13 +60,26 @@ NFL %>% mutate(play_type=case_when(is.na(play_type) & str_detect(description,"DI
 
 ```{r Penalty Yards for Chicago Bears}
 #Want to first compute the Average of the league and then compare it to the Chicago Bears.
-# but have to figure out how to exclude the plays that did not have penalties.
-Penaltys_team <- NFL %>% 
-  count(offense_team,penalty_yards) %>% filter(offense_team=="CHI")
-  Penaltys_team
+# but have to figure out how to exclude the plays that did not have penalties(DONE Removed all plays with 0 penalty yards)
+
   
-ggplot( data=Penaltys_team, aes(x=offense_team, y=penalty_yards, size=n) ) +
-geom_point( )
+LA_Penalty <- NFL %>% 
+  filter(!penalty_yards==0) %>% 
+  summarise(LA_mean=mean(penalty_yards))
+Penaltys_team <- NFL %>% 
+  count(offense_team,penalty_yards) %>% filter(offense_team=="CHI", !penalty_yards==0)
+  Penaltys_team
+  ggplot( data=Penaltys_team, aes(x=offense_team, y=penalty_yards, size=n) ) +
+geom_point(alpha=.5) + geom_hline(yintercept = 8.62)
+
+  Penaltys_teamd
+
+
+
+
+
+
+
 #want to alter this to only have plays where penalty happened.And Compete league average to compare against. Also Figure out what NA is?
 #Summary Table of League average and then plot a line with League average and Chicago Average. Do an overlay, "How to add average line to dot/boxplot"
 ```

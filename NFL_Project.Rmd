@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r Loading_packages, message=FALSE}
 library(tidyverse)
 library(janitor)
+library(moderndive)
 ```
 
 
@@ -44,7 +45,7 @@ NFL %>% filter(is.na(play_type))
 #mutate/case to do if else statement, Denny's activity Example.
 #Chapter 14, Stringer commands, Week 5 Wednesdays class
 NFL %>% mutate(play_type=case_when(is.na(play_type) & str_detect(description,"DIRECT SNAP")~ "Wildcat",
-                                   TRUE~play_type)) %>% View()
+                                   TRUE~play_type))
 #look into function to change more appealing style of text Title Case
 #str_to_title is the function.
 
@@ -60,7 +61,7 @@ NFL %>% mutate(play_type=case_when(is.na(play_type) & str_detect(description,"DI
 
 ```{r Penalty Yards for Chicago Bears}
 #Want to first compute the Average of the league and then compare it to the Chicago Bears.
-# but have to figure out how to exclude the plays that did not have penalties(DONE Removed all plays with 0 penalty yards)
+#(DONE Removed all plays with 0 penalty yards), so the league average was computed and then we filter it to only include the Chicago Bears
 
   
 LA_Penalty <- NFL %>% 
@@ -72,16 +73,8 @@ Penaltys_team <- NFL %>%
   ggplot( data=Penaltys_team, aes(x=offense_team, y=penalty_yards, size=n) ) +
 geom_point(alpha=.5) + geom_hline(yintercept = 8.62)
 
-  Penaltys_teamd
+  Penaltys_team
 
-
-
-
-
-
-
-#want to alter this to only have plays where penalty happened.And Compete league average to compare against. Also Figure out what NA is?
-#Summary Table of League average and then plot a line with League average and Chicago Average. Do an overlay, "How to add average line to dot/boxplot"
 ```
 
 ```{r Play Type Yardage}
@@ -89,8 +82,30 @@ Playtype_Yardage <- NFL %>% filter(!play_type%in%c("TIMEOUT","CLOCK STOP", "EXCE
   count(yards, play_type)
 Playtype_Yardage
 ggplot( data=Playtype_Yardage, aes(x=play_type, y=yards, size=n) ) +
-geom_point( )
-#Section could be done, see Bradford for more advice on it.
+geom_point(alpha=.5 )
+#Removed variables in graph that cannot report gains of yards, sacks can only result in negative yards, otherwise it is considered a scramble. The rest of chart is showing the frequency of plays and what amount of yards they result in.
+```
+```{r probability}
+NFL %>% 
+  group_by(down,is_touchdown) %>% 
+  summarise(n=n()) %>% 
+  mutate(prob=n/sum(n))
+```
+
+
+``` {r Resample + Function}
+set.seed(2000)
+NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI",down == 3) %>% 
+  rep_sample_n(size= nrow(.), reps=1000, replace = TRUE) %>% 
+  group_by(down,is_touchdown) %>% 
+  summarise(n=n()) %>% 
+  mutate(prob=n/sum(n))
+
+
+
+
+  
+
 ```
 
 

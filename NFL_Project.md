@@ -1,6 +1,8 @@
 NFL\_Project
 ================
 
+## Reading in data
+
 ``` r
 library(tidyverse)
 library(janitor)

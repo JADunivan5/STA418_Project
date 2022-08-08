@@ -15,11 +15,10 @@ library(moderndive)
 ```
 
 
-```{r Reading_Files, Message=FALSE}
+```{r Reading_Files, message=FALSE, warning=FALSE}
 NFL <- read_csv(here::here("Data", "pbp-2021.csv")) %>% 
   clean_names() %>%
   select(-`x11`,-`x13`,-`x17`,-`x18`)
-
 
 ```
 

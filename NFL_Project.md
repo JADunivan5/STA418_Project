@@ -13,32 +13,6 @@ NFL <- read_csv(here::here("Data", "pbp-2021.csv")) %>%
   select(-`x11`,-`x13`,-`x17`,-`x18`)
 ```
 
-    ## Warning: Missing column names filled in: 'X11' [11], 'X13' [13], 'X17' [17],
-    ## 'X18' [18]
-
-    ## 
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## cols(
-    ##   .default = col_double(),
-    ##   GameDate = col_date(format = ""),
-    ##   OffenseTeam = col_character(),
-    ##   DefenseTeam = col_character(),
-    ##   X11 = col_logical(),
-    ##   X13 = col_logical(),
-    ##   Description = col_character(),
-    ##   X17 = col_logical(),
-    ##   X18 = col_logical(),
-    ##   Formation = col_character(),
-    ##   PlayType = col_character(),
-    ##   PassType = col_character(),
-    ##   Challenger = col_logical(),
-    ##   RushDirection = col_character(),
-    ##   YardLineDirection = col_character(),
-    ##   PenaltyTeam = col_character(),
-    ##   PenaltyType = col_character()
-    ## )
-    ## ℹ Use `spec()` for the full column specifications.
-
 ``` r
  play_down_freq <- NFL %>% 
   count(play_type,down)

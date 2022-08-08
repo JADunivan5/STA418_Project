@@ -44,10 +44,8 @@ NFL %>% filter(is.na(play_type))
 #play type must contain NA and Description must contain DIRECT SNAP
 #mutate/case to do if else statement, Denny's activity Example.
 #Chapter 14, Stringer commands, Week 5 Wednesdays class
-NFL %>% mutate(play_type=case_when(is.na(play_type) & str_detect(description,"DIRECT SNAP")~ "Wildcat",
+NFL %>% mutate(play_type=case_when(is.na(play_type) & str_detect(description,"DIRECT SNAP")~ "WILDCAT",
                                    TRUE~play_type))
-#look into function to change more appealing style of text Title Case
-#str_to_title is the function.
 
 
 
@@ -95,7 +93,7 @@ NFL %>%
 
 ``` {r Resample + Function}
 set.seed(2000)
-NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI",down == 3) %>% 
+NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 4) %>% 
   rep_sample_n(size= nrow(.), reps=1000, replace = TRUE) %>% 
   group_by(down,is_touchdown) %>% 
   summarise(n=n()) %>% 

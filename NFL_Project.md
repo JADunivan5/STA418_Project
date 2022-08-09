@@ -201,6 +201,8 @@ geom_point(alpha=.5 )
 #Removed variables in graph that cannot report gains of yards, sacks can only result in negative yards, otherwise it is considered a scramble. The rest of chart is showing the frequency of plays and what amount of yards they result in.
 ```
 
+## Calculating League Average on each down.
+
 ``` r
 NFL %>% 
   group_by(down,is_touchdown) %>% 
@@ -225,9 +227,11 @@ NFL %>%
     ##  9     4            0  3499 0.978  
     ## 10     4            1    80 0.0224
 
+## Resampling 1000 Chicago Bears Offenses on 3rd down.
+
 ``` r
 set.seed(2000)
-NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 4) %>% 
+NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 3) %>% 
   rep_sample_n(size= nrow(.), reps=1000, replace = TRUE) %>% 
   group_by(down,is_touchdown) %>% 
   summarise(n=n()) %>% 
@@ -235,3 +239,14 @@ NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 4) %>%
 ```
 
     ## `summarise()` has grouped output by 'down'. You can override using the `.groups` argument.
+
+``` r
+NFL_CHI_boots
+```
+
+    ## # A tibble: 2 x 4
+    ## # Groups:   down [1]
+    ##    down is_touchdown      n   prob
+    ##   <dbl>        <dbl>  <int>  <dbl>
+    ## 1     3            0 207027 0.972 
+    ## 2     3            1   5973 0.0280

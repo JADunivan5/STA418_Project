@@ -83,6 +83,10 @@ ggplot( data=Playtype_Yardage, aes(x=play_type, y=yards, size=n) ) +
 geom_point(alpha=.5 )
 #Removed variables in graph that cannot report gains of yards, sacks can only result in negative yards, otherwise it is considered a scramble. The rest of chart is showing the frequency of plays and what amount of yards they result in.
 ```
+
+## Calculating League Average on each down.
+
+
 ```{r probability}
 NFL %>% 
   group_by(down,is_touchdown) %>% 
@@ -90,16 +94,17 @@ NFL %>%
   mutate(prob=n/sum(n))
 ```
 
+## Resampling 1000 Chicago Bears Offenses on 3rd down.
 
 ``` {r Resample + Function}
 set.seed(2000)
-NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 4) %>% 
+NFL_CHI_boots <- NFL %>% filter(offense_team=="CHI", down == 3) %>% 
   rep_sample_n(size= nrow(.), reps=1000, replace = TRUE) %>% 
   group_by(down,is_touchdown) %>% 
   summarise(n=n()) %>% 
   mutate(prob=n/sum(n))
 
-
+NFL_CHI_boots
 
 
   
